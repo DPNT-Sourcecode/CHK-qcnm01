@@ -4,4 +4,3 @@ def compute(x, y):
         return x + y
     else:
         raise Exception("Error: x and y are not within the authorized range.")
-

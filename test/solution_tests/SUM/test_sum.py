@@ -7,12 +7,7 @@ class TestSum:
     def test_sum(self):
         assert sum_solution.compute(1, 2) == 3
         assert sum_solution.compute(2, 5) == 7
-        print(f"Done")
 
 
 TestSum().test_sum()
-
-
-
-
 
