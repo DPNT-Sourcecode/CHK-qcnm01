@@ -34,8 +34,9 @@ def checkout(skus):
         | Z    | 50    |                        |
         +------+-------+------------------------+
     """
-    table_offer = {'A': 50, 'B': 30, 'C': 20, 'D': 15, 'E': 40, 'F': 10}
-    checkout = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0}
+    table_offer, special_offers = read_item_list()
+    checkout = {f"{char}": 0 for char in table_offer}
+    print(f"Checkout: {checkout}")
     total = 0
     # First, we read what's in the basket
     for char in skus:
@@ -43,20 +44,15 @@ def checkout(skus):
             checkout[char] += 1
         else:
             return -1
-    checkout['B'] -= checkout['E'] // 2  # Every 2E bought, we remove a B from the checkout (= free)
 
-    if checkout['F'] > 2:   # Only works if we have at least 3Fs in our basket
-        checkout['F'] -= checkout['F'] // 3
-
-    # In case there is less B in our basket than we can get for free
-    if checkout['B'] < 0:
-        checkout['B'] = 0
-
-    total += checkout['A'] // 5 * 200 + checkout['A'] % 5 // 3 * 130 + checkout['A'] % 5 % 3 * 50 +\
-             checkout['B'] // 2 * 45 + checkout['B'] % 2 * 30
-    total += sum([checkout[sku] * table_offer[sku] for sku in 'CDEF'])
-
-    print(f"Total of {skus}: {total}")
+    for product, qty in checkout.items():
+        print(f"for product A:")
+        product_offers = [int(elt[0]) for elt in special_offers if product in elt]
+        print(f"Offers founds: {product_offers}")
+    #
+    # total += sum([checkout[sku] * table_offer[sku] for sku in 'CDEF'])
+    #
+    # print(f"Total of {skus}: {total}")
 
     return total
 
@@ -72,7 +68,7 @@ def read_item_list():
 
     with open(file_path + '/item_list.txt', 'r') as f:
         lines = f.readlines()
-        for line in lines[3:len(lines) - 1]:
+        for line in lines[3:len(lines) - 1]:    # First 3 lines are for aesthetics and so is the last one
             line = [elt.strip() for elt in line.strip().split('|') if elt != '']
             # print(f"Line is: {line}")
             product, price, special_offers = line
@@ -87,5 +83,4 @@ def read_item_list():
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
                     special_offer_list[product_o] = free_product[0]
 
-    print(table_offer)
     return table_offer, special_offer_list
