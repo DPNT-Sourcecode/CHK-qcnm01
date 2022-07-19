@@ -49,6 +49,9 @@ def checkout(skus):
         print(f"for product A:")
         product_offers = [int(elt[0]) for elt in special_offers if product in elt]
         print(f"Offers founds: {product_offers}")
+        # for nb in product_offers:
+
+            # checkout[product] -=
     #
     # total += sum([checkout[sku] * table_offer[sku] for sku in 'CDEF'])
     #
@@ -84,3 +87,4 @@ def read_item_list():
                     special_offer_list[product_o] = free_product[0]
 
     return table_offer, special_offer_list
+
