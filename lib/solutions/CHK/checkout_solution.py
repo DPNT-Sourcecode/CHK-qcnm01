@@ -38,6 +38,7 @@ def checkout(skus):
             # We keep the cheapest products
             nb_products_left = checkout_qty % qty
             for product, _ in prices:
+                print(f"product: {product}, qrty_left: {nb_products_left}")
                 if nb_products_left > 0:
                     if checkout[product] >= nb_products_left:
                         checkout[product] -= nb_products_left
@@ -117,4 +118,5 @@ def read_item_list(nb_round):
     # print(f"any offer: {any_special_offer_list}")
 
     return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
+
 
