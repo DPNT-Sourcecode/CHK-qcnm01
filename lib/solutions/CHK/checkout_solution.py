@@ -99,27 +99,24 @@ def read_item_list(nb_round):
             product, price, special_offers = line
             table_offer[product] = int(price)
 
-            offers = [elt.strip() for elt in special_offers.split(',')]
-            for offer in offers:
-                if "for" in offer:
-                    product_o, price_o = [elt.strip() for elt in offer.split('for')]
-                    for_special_offer_list[product_o] = int(price_o)
-                elif 'get' in offer:
-                    product_o, free_product = [elt.strip() for elt in offer.split('get one')]
-                    get_special_offer_list[product_o] = free_product[0]
-                elif 'any' in offer:
-                    offer = offer.split(' ')
-                    print(offer)
-                    qty = offer[2]
-                    products = tuple(offer[4])
-                    print(f'qty: {qty}\noproducts: {products}')
+            if 'any' in special_offers:
+                offer = special_offers.split(' ')
+                print(offer)
+                qty = offer[2]
+                products = offer[4][1:len(offer[4]) -1].split(',')
 
+                print(f'qty: {qty}\nproducts: {products}')
+
+            else:
+                offers = [elt.strip() for elt in special_offers.split(',')]
+                for offer in offers:
+                    if "for" in offer:
+                        product_o, price_o = [elt.strip() for elt in offer.split('for')]
+                        for_special_offer_list[product_o] = int(price_o)
+                    elif 'get' in offer:
+                        product_o, free_product = [elt.strip() for elt in offer.split('get one')]
+                        get_special_offer_list[product_o] = free_product[0]
 
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
-
-
-
-
-
