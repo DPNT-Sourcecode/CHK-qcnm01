@@ -1,5 +1,3 @@
-import sys
-# sys.path.append("/Users/arthur/Documents/coding_test/accelerate_runner/")
 from lib.solutions.SUM import sum_solution
 
 
@@ -10,5 +8,6 @@ class TestSum:
 
 
 TestSum().test_sum()
+
 
 
