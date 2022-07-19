@@ -51,6 +51,8 @@ def checkout(skus):
         # print(f"product_get_offers: {product_get_offers}")
         for qty_req, free_p in product_get_offers.items():
             checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
+            if checkout[free_p] < 0:
+                checkout[free_p] = 0
             print(f"checkout {free_p}: {checkout[free_p]}")
 
     # Then, we apply discounts
@@ -114,6 +116,7 @@ def read_item_list():
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
+
 
 
 
