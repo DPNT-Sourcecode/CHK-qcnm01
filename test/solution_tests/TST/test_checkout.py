@@ -37,6 +37,10 @@ class TestCheckout:
         assert checkout_solution.checkout('FF') == 20
         assert checkout_solution.checkout('AAAAA') == 200
 
+    def test_chk4(self):
+        checkout_solution.read_item_list()
 
-TestCheckout().test_chk3()
+
+TestCheckout().test_chk4()
+
 
