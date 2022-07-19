@@ -47,7 +47,7 @@ def checkout(skus):
 
     # First, we remove "free products"
     for product, qty in checkout.items():
-        product_get_offers = {int(elt[0]): free for elt, free in get_special_offers.items() if product in elt}
+        product_get_offers = {get_number(elt): free for elt, free in get_special_offers.items() if product in elt}
         # print(f"product_get_offers: {product_get_offers}")
         for qty_req, free_p in product_get_offers.items():
             checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
@@ -55,7 +55,7 @@ def checkout(skus):
     # Then, we apply discounts
     for product, qty in checkout.items():
         # print(f"for product A:")
-        product_for_offers = sorted([int(elt[0]) for elt in for_special_offers if product in elt], reverse=True)
+        product_for_offers = sorted([get_number(elt) for elt in for_special_offers if product in elt], reverse=True)
         print(f"Offers founds: {product_for_offers}")
         for qty in product_for_offers:
             total += checkout[product] // qty * for_special_offers[f"{qty}{product}"]
@@ -66,6 +66,17 @@ def checkout(skus):
     print(f"Total of {skus}: {total}")
 
     return total
+
+
+def get_number(elt):
+    """ Input like 10H, returns 10"""
+    print(f"elt: {elt}")
+    buff = ''
+    for i in elt:
+        if i in '0123456789':
+            buff += i
+    print(f"nd: {int(buff)}")
+    return int(buff)
 
 
 def read_item_list():
@@ -98,3 +109,4 @@ def read_item_list():
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
+
