@@ -47,7 +47,6 @@ def checkout(skus):
     # First, we remove "free products"
     for product, qty in checkout.items():
         product_get_offers = {get_number(elt): free for elt, free in get_special_offers.items() if product in elt}
-        # print(f"product_get_offers: {product_get_offers}")
         for qty_req, free_p in product_get_offers.items():
             checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
             if checkout[free_p] < 0:
@@ -55,18 +54,18 @@ def checkout(skus):
 
     # Then, we do "any" offers:
     for offer in any_special_offers:
-        print(f"Offer: {offer}")
+        # print(f"Offer: {offer}")
         qty, products, price = offer
         checkout_qty = sum([checkout[product] for product in products])
+        # print(f"checkout_qty: {checkout_qty}")
 
-        print(f"checkout_qty: {checkout_qty}")
-        if checkout_qty > qty:
+        if checkout_qty >= qty:
             # We take the most expensive ones in priority:
             prices = sorted([(product, table_offer[product]) for product in products], reverse=False, key=lambda x: x[1])
             nb_offers = checkout_qty // qty
             total += nb_offers * price
 
-            # Need to remove from the checkout starting by the most expensive ones
+            # We keep the cheapest products
             nb_products_left = checkout_qty % qty
             for product, _ in prices:
                 if nb_products_left > 0:
@@ -80,15 +79,11 @@ def checkout(skus):
 
     # Then, we apply discounts
     for product, qty in checkout.items():
-        # print(f"for product A:")
         product_for_offers = sorted([get_number(elt) for elt in for_special_offers if product in elt], reverse=True)
         if product_for_offers:
-            # print(f"Offers founds: {product_for_offers}")
-            # print(f"checkout product: {checkout[product]}")
             for qty in product_for_offers:
                 total += checkout[product] // qty * for_special_offers[f"{qty}{product}"]
                 checkout[product] = checkout[product] % qty
-                # print(f"checkout product: {checkout[product]}")
 
     total += sum([checkout[sku] * table_offer[sku] for sku in table_offer if checkout[sku] >= 0])
 
@@ -146,13 +141,8 @@ def read_item_list(nb_round):
                         product_o, free_product = [elt.strip() for elt in offer.split('get one')]
                         get_special_offer_list[product_o] = free_product[0]
 
-    print(f"for offer: {for_special_offer_list}")
-    print(f"get offer: {get_special_offer_list}")
-    print(f"any offer: {any_special_offer_list}")
+    # print(f"for offer: {for_special_offer_list}")
+    # print(f"get offer: {get_special_offer_list}")
+    # print(f"any offer: {any_special_offer_list}")
 
     return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
-
-
-
-
-
