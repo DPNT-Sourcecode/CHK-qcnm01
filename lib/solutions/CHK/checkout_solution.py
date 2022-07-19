@@ -14,8 +14,8 @@ def checkout(skus):
         +------+-------+------------------------+
     """
     print(f"skus are: {skus}")
-    table_offer = {'A': 50, 'B': 30, 'C': 20, 'D': 15}
-    checkout = {'A': 0, 'B': 0, 'C': 0, 'D': 0}
+    table_offer = {'A': 50, 'B': 30, 'C': 20, 'D': 15, 'E': 40}
+    checkout = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0}
     total = 0
     # First, we read what's in the basket
     for char in skus:
@@ -27,11 +27,12 @@ def checkout(skus):
 
     total += checkout['A'] // 5 * 200 + checkout['A'] % 5 // 3 * 130 + checkout['A'] % 5 % 3 * 50 +\
              checkout['B'] // 2 * 45 + checkout['B'] % 2 * 30
-    total += checkout['C'] * 20 + checkout['D'] * 15
+    total += sum([checkout[sku] * table_offer[sku] for sku in 'CDE'])
 
     print(f"Total of {skus}: {total}")
 
     return total
+
 
 
 
