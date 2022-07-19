@@ -13,6 +13,7 @@ def checkout(skus):
     | D    | 15    |                |
     +------+-------+----------------+
     """
-    table_offer = {'A': 50, 'B': 30, 'C': 20, 'D': 15}
-    raise NotImplementedError()
+    table_offer = {'1A': 50, '1B': 30, '1C': 20, '1D': 15}
+    for
+
 
