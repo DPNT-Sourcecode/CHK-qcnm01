@@ -55,17 +55,28 @@ def checkout(skus):
 
     # Then, we do "any" offers:
     for offer in any_special_offers:
-        qty = offer[0]
-        products = offer[1]
+        qty, products, price = offer
+        # products = offer[1]
+        # price = offer[2]
         checkout_qty = sum([table_offer[product] for product in products])
 
         if checkout_qty > qty:
             # We take the most expensive ones in priority:
-            prices = sorted([(product, table_offer[product]) for product in products], reverse=True, key=lambda x: x[1])
-            
+            prices = sorted([(product, table_offer[product]) for product in products], reverse=False, key=lambda x: x[1])
+            nb_offers = checkout_qty // qty
+            total += nb_offers * price
 
-
-
+            # Need to remove from the checkout starting by the most expensive ones
+            nb_products_left = checkout_qty % qty
+            for product, _ in prices:
+                if nb_products_left > 0:
+                    if checkout[product] > nb_products_left:
+                        checkout[product] -= nb_products_left
+                        nb_products_left = 0
+                    else:
+                        nb_products_left -= checkout[product]
+                else:
+                    checkout[product] = 0
 
     # Then, we apply discounts
     for product, qty in checkout.items():
@@ -118,8 +129,10 @@ def read_item_list(nb_round):
                 offer = special_offers.split(' ')
                 qty = offer[2]
                 products = offer[4][1:len(offer[4]) - 1].split(',')
+                price = offer[-1]
+
                 if (qty, products) not in any_special_offer_list:
-                    any_special_offer_list.append((qty, products))
+                    any_special_offer_list.append((qty, products, price))
                 # print(f'qty: {qty}\nproducts: {products}')
 
             else:
@@ -136,6 +149,7 @@ def read_item_list(nb_round):
     print(f"get offer: {get_special_offer_list}")
     print(f"any offer: {any_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
+
 
 
 
