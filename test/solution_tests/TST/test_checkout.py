@@ -42,5 +42,3 @@ class TestCheckout:
 
 
 TestCheckout().test_chk4()
-
-

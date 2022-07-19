@@ -70,23 +70,22 @@ def read_item_list():
         lines = f.readlines()
         for line in lines[3:len(lines) - 1]:
             line = [elt.strip() for elt in line.strip().split('|') if elt != '']
-            print(f"Line is: {line}")
+            # print(f"Line is: {line}")
             product, price, special_offers = line
             table_offer[product] = int(price)
 
             offers = [elt.strip() for elt in special_offers.split(',')]
-            for offer in offer:
+            for offer in offers:
                 if "for" in offer:
+                    print(f"for offer: {offer}")
                     product_o, price_o = [elt.strip() for elt in offer.split('for')]
+                    print(f"{product_o}: {price_o}")
                     special_offer_list[product_o] = int(price_o)
                 elif 'get' in offer:
+                    print(f"get offer: {offer}")
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
+                    print(f"{product_o}: {free_product}")
                     special_offer_list[product_o] = free_product[0]
 
-    print(f"Table offer is: {table_offer}")
-    print(f"Special offers are: {special_offers}")
-
-
-
-
-
+    # print(f"Table offer is: {table_offer}")
+    print(f"Special offers are: {special_offer_list}")
