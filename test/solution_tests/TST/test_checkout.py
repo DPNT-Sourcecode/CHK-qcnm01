@@ -42,7 +42,8 @@ class TestCheckout:
 
     def test_chk5(self):
         # checkout_solution.read_item_list(5)
-        checkout_solution.checkout('SXTZZZZEEB')
+        checkout_solution.checkout('SSSZ')
 
 
 TestCheckout().test_chk5()
+

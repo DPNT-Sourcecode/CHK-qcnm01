@@ -2,38 +2,6 @@
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
-    """
-        +------+-------+------------------------+
-        | Item | Price | Special offers         |
-        +------+-------+------------------------+
-        | A    | 50    | 3A for 130, 5A for 200 |
-        | B    | 30    | 2B for 45              |
-        | C    | 20    |                        |
-        | D    | 15    |                        |
-        | E    | 40    | 2E get one B free      |
-        | F    | 10    | 2F get one F free      |
-        | G    | 20    |                        |
-        | H    | 10    | 5H for 45, 10H for 80  |
-        | I    | 35    |                        |
-        | J    | 60    |                        |
-        | K    | 80    | 2K for 150             |
-        | L    | 90    |                        |
-        | M    | 15    |                        |
-        | N    | 40    | 3N get one M free      |
-        | O    | 10    |                        |
-        | P    | 50    | 5P for 200             |
-        | Q    | 30    | 3Q for 80              |
-        | R    | 50    | 3R get one Q free      |
-        | S    | 30    |                        |
-        | T    | 20    |                        |
-        | U    | 40    | 3U get one U free      |
-        | V    | 50    | 2V for 90, 3V for 130  |
-        | W    | 20    |                        |
-        | X    | 90    |                        |
-        | Y    | 10    |                        |
-        | Z    | 50    |                        |
-        +------+-------+------------------------+
-    """
     table_offer, for_special_offers, get_special_offers, any_special_offers = read_item_list(5)
     checkout = {f"{char}": 0 for char in table_offer}
     total = 0
@@ -54,10 +22,10 @@ def checkout(skus):
 
     # Then, we do "any" offers:
     for offer in any_special_offers:
-        # print(f"Offer: {offer}")
+        print(f"Offer: {offer}")
         qty, products, price = offer
         checkout_qty = sum([checkout[product] for product in products])
-        # print(f"checkout_qty: {checkout_qty}")
+        print(f"checkout_qty: {checkout_qty}")
 
         if checkout_qty >= qty:
             # We take the most expensive ones in priority:
@@ -65,11 +33,13 @@ def checkout(skus):
             nb_offers = checkout_qty // qty
             total += nb_offers * price
 
+            print(f"nb_offers: {nb_offers}")
+            print(f"prices: {prices}")
             # We keep the cheapest products
             nb_products_left = checkout_qty % qty
             for product, _ in prices:
                 if nb_products_left > 0:
-                    if checkout[product] > nb_products_left:
+                    if checkout[product] >= nb_products_left:
                         checkout[product] -= nb_products_left
                         nb_products_left = 0
                     else:
@@ -77,6 +47,7 @@ def checkout(skus):
                 else:
                     checkout[product] = 0
 
+    print(f"checkout: {checkout}")
     # Then, we apply discounts
     for product, qty in checkout.items():
         product_for_offers = sorted([get_number(elt) for elt in for_special_offers if product in elt], reverse=True)
@@ -105,7 +76,7 @@ def get_number(elt):
 def read_item_list(nb_round):
     """
     Reads file in item_list_r4.txt containing the products, their price and their offers to build talbe_offer and
-    special_offer_list.
+    special_offer_lists.
     """
     table_offer = {}
     for_special_offer_list = {}
@@ -146,3 +117,4 @@ def read_item_list(nb_round):
     # print(f"any offer: {any_special_offer_list}")
 
     return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
+
