@@ -57,13 +57,13 @@ def checkout(skus):
         # print(f"for product A:")
         product_for_offers = sorted([int(elt[0]) for elt in for_special_offers if product in elt], reverse=True)
         print(f"Offers founds: {product_for_offers}")
-        # for qty in product_for_offers:
-        #     total +=
+        for qty in product_for_offers:
+            total += checkout[product] // qty * for_special_offers[f"{qty}{product}"]
+            checkout[product] -= checkout[product] // qty
 
-    #
-    # total += sum([checkout[sku] * table_offer[sku] for sku in 'CDEF'])
-    #
-    # print(f"Total of {skus}: {total}")
+    total += sum([checkout[sku] * table_offer[sku] for sku in table_offer])
+
+    print(f"Total of {skus}: {total}")
 
     return total
 
@@ -95,10 +95,6 @@ def read_item_list():
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
                     get_special_offer_list[product_o] = free_product[0]
 
-    print(for_special_offer_list)
+    print(f"for offer: {for_special_offer_list}")
+    print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
-
-
-
-
-
