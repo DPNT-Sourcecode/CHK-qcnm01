@@ -89,6 +89,7 @@ def read_item_list(nb_round):
     table_offer = {}
     for_special_offer_list = {}
     get_special_offer_list = {}
+    any_special_offer_list = set()
     file_path = '/'.join(__file__.split('/')[:len(__file__.split('/')) - 1])
 
     with open(file_path + f'/item_list_r{nb_round}.txt', 'r') as f:
@@ -103,9 +104,9 @@ def read_item_list(nb_round):
                 offer = special_offers.split(' ')
                 print(offer)
                 qty = offer[2]
-                products = offer[4][1:len(offer[4]) -1].split(',')
-
-                print(f'qty: {qty}\nproducts: {products}')
+                products = offer[4][1:len(offer[4]) - 1].split(',')
+                any_special_offer_list.add((qty, products))
+                # print(f'qty: {qty}\nproducts: {products}')
 
             else:
                 offers = [elt.strip() for elt in special_offers.split(',')]
@@ -119,4 +120,6 @@ def read_item_list(nb_round):
 
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
-    return table_offer, for_special_offer_list, get_special_offer_list
+    print(f"any offer: {list(any_special_offer_list)}")
+    return table_offer, for_special_offer_list, list(any_special_offer_list)
+
