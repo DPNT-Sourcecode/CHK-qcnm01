@@ -34,7 +34,7 @@ def checkout(skus):
         | Z    | 50    |                        |
         +------+-------+------------------------+
     """
-    table_offer, for_special_offers, get_special_offers = read_item_list()
+    table_offer, for_special_offers, get_special_offers, any_special_offers = read_item_list(5)
     checkout = {f"{char}": 0 for char in table_offer}
     total = 0
     # First, we read what's in the basket
@@ -52,6 +52,20 @@ def checkout(skus):
             checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
             if checkout[free_p] < 0:
                 checkout[free_p] = 0
+
+    # Then, we do "any" offers:
+    for offer in any_special_offers:
+        qty = offer[0]
+        products = offer[1]
+        checkout_qty = sum([table_offer[product] for product in products])
+
+        if checkout_qty > qty:
+            # We take the most expensive ones in priority:
+            prices = sorted([(product, table_offer[product]) for product in products], reverse=True, key=lambda x: x[1])
+            
+
+
+
 
     # Then, we apply discounts
     for product, qty in checkout.items():
@@ -120,7 +134,8 @@ def read_item_list(nb_round):
 
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
-    print(f"any offer: {list(any_special_offer_list)}")
-    return table_offer, for_special_offer_list, list(any_special_offer_list)
+    print(f"any offer: {any_special_offer_list}")
+    return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
+
 
 
