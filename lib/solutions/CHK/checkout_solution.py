@@ -15,5 +15,3 @@ def checkout(skus):
     """
     table_offer = {'1A': 50, '1B': 30, '1C': 20, '1D': 15}
     for
-
-

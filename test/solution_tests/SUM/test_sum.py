@@ -9,5 +9,3 @@ class TestSum:
 
 TestSum().test_sum()
 
-
-
