@@ -21,5 +21,22 @@ class TestCheckout:
         assert checkout_solution.checkout('AAABEE') == 210
         assert checkout_solution.checkout('AAAAA') == 200
 
+    def test_chk3(self):
+        """
+        +------+-------+------------------------+
+        | Item | Price | Special offers         |
+        +------+-------+------------------------+
+        | A    | 50    | 3A for 130, 5A for 200 |
+        | B    | 30    | 2B for 45              |
+        | C    | 20    |                        |
+        | D    | 15    |                        |
+        | E    | 40    | 2E get one B free      |
+        | F    | 10    | 2F get one F free      |
+        +------+-------+------------------------+
+        """
+        assert checkout_solution.checkout('FF') == 20
+        assert checkout_solution.checkout('AAAAA') == 200
 
-TestCheckout().test_chk2()
+
+TestCheckout().test_chk3()
+
