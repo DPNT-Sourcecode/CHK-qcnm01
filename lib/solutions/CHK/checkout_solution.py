@@ -45,19 +45,21 @@ def checkout(skus):
         else:
             return -1
 
+    # First, we remove "free products"
     for product, qty in checkout.items():
         product_get_offers = {int(elt[0]): free for elt, free in get_special_offers.items() if product in elt}
-        print(f"product_get_offers: {product_get_offers}")
-        for qty, offer in product_get_offers:
+        # print(f"product_get_offers: {product_get_offers}")
+        for qty_req, free_p in product_get_offers.items():
+            checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
 
-
+    # Then, we apply discounts
     for product, qty in checkout.items():
-        print(f"for product A:")
-        product_offers = [int(elt[0]) for elt in for_special_offers if product in elt]
-        print(f"Offers founds: {product_offers}")
-        # for nb in product_offers:
+        # print(f"for product A:")
+        product_for_offers = sorted([int(elt[0]) for elt in for_special_offers if product in elt], reverse=True)
+        print(f"Offers founds: {product_for_offers}")
+        # for qty in product_for_offers:
+        #     total +=
 
-            # checkout[product] -=
     #
     # total += sum([checkout[sku] * table_offer[sku] for sku in 'CDEF'])
     #
@@ -93,8 +95,9 @@ def read_item_list():
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
                     get_special_offer_list[product_o] = free_product[0]
 
-    print(get_special_offer_list)
+    print(for_special_offer_list)
     return table_offer, for_special_offer_list, get_special_offer_list
+
 
 
 
