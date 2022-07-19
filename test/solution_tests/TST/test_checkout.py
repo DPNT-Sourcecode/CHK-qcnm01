@@ -38,8 +38,9 @@ class TestCheckout:
         assert checkout_solution.checkout('AAAAA') == 200
 
     def test_chk4(self):
-        checkout_solution.checkout('AAAAAAAA')
+        checkout_solution.checkout('UUUUU')
 
 
 TestCheckout().test_chk4()
+
 
