@@ -1,5 +1,4 @@
 
-
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
@@ -13,5 +12,18 @@ def checkout(skus):
     | D    | 15    |                |
     +------+-------+----------------+
     """
-    table_offer = {'1A': 50, '1B': 30, '1C': 20, '1D': 15}
-    for
+    table_offer = {'A': 50, 'B': 30, 'C': 20, 'D': 15}
+    checkout = {'A': 0, 'B': 0, 'C': 0, 'D': 0}
+    total = 0
+    # First, we read what's in the basket
+    for char in skus:
+        if char in checkout:
+            checkout[char] += 1
+        else:
+            return -1
+    total += checkout['A'] // 3 * 130 + checkout['A'] % 3 * 50 +\
+             checkout['B'] // 2 * 45 + checkout['B'] % 2 * 30
+    total += checkout['C'] * 20 + checkout['D'] * 15
+
+    return total
+
