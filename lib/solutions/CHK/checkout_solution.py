@@ -36,7 +36,6 @@ def checkout(skus):
     """
     table_offer, for_special_offers, get_special_offers = read_item_list()
     checkout = {f"{char}": 0 for char in table_offer}
-    print(f"Checkout: {checkout}")
     total = 0
     # First, we read what's in the basket
     for char in skus:
@@ -53,7 +52,6 @@ def checkout(skus):
             checkout[free_p] -= checkout[product] // (qty_req + int(free_p == product))
             if checkout[free_p] < 0:
                 checkout[free_p] = 0
-            print(f"checkout {free_p}: {checkout[free_p]}")
 
     # Then, we apply discounts
     for product, qty in checkout.items():
@@ -67,10 +65,7 @@ def checkout(skus):
                 checkout[product] = checkout[product] % qty
                 # print(f"checkout product: {checkout[product]}")
 
-    print(f"checkout: {checkout}")
     total += sum([checkout[sku] * table_offer[sku] for sku in table_offer if checkout[sku] >= 0])
-
-    print(f"Total of {skus}: {total}")
 
     return total
 
@@ -86,9 +81,9 @@ def get_number(elt):
     return int(buff)
 
 
-def read_item_list():
+def read_item_list(nb_round):
     """
-    Reads file in item_list.txt containing the products, their price and their offers to build talbe_offer and
+    Reads file in item_list_r4.txt containing the products, their price and their offers to build talbe_offer and
     special_offer_list.
     """
     table_offer = {}
@@ -96,7 +91,7 @@ def read_item_list():
     get_special_offer_list = {}
     file_path = '/'.join(__file__.split('/')[:len(__file__.split('/')) - 1])
 
-    with open(file_path + '/item_list.txt', 'r') as f:
+    with open(file_path + f'/item_list_r{nb_round}.txt', 'r') as f:
         lines = f.readlines()
         for line in lines[3:len(lines) - 1]:    # First 3 lines are for aesthetics and so is the last one
             line = [elt.strip() for elt in line.strip().split('|') if elt != '']
@@ -112,10 +107,18 @@ def read_item_list():
                 elif 'get' in offer:
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
                     get_special_offer_list[product_o] = free_product[0]
+                elif 'any' in offer:
+                    offer = offer.split(' ')
+                    print(offer)
+                    qty = offer[2]
+                    products = tuple(offer[4])
+                    print(f'qty: {qty}\noproducts: {products}')
+
 
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
+
 
 
 
