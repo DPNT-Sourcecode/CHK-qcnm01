@@ -25,10 +25,13 @@ def checkout(skus):
             return -1
     checkout['B'] -= checkout['E'] // 2  # Every 2E bought, we remove a B from the checkout (= free)
 
-    total += checkout['A'] // 5 * 200 + checkout['A'] // 3 * 130 + checkout['A'] % 3 * 50 +\
+    total += checkout['A'] // 5 * 200 + checkout['A'] % 5 // 3 * 130 + checkout['A'] % 5 % 3 * 50 +\
              checkout['B'] // 2 * 45 + checkout['B'] % 2 * 30
     total += checkout['C'] * 20 + checkout['D'] * 15
 
+    print(f"Total of {skus}: {total}")
+
     return total
+
 
 
