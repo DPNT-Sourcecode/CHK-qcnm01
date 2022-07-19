@@ -56,10 +56,13 @@ def checkout(skus):
     for product, qty in checkout.items():
         # print(f"for product A:")
         product_for_offers = sorted([get_number(elt) for elt in for_special_offers if product in elt], reverse=True)
-        print(f"Offers founds: {product_for_offers}")
-        for qty in product_for_offers:
-            total += checkout[product] // qty * for_special_offers[f"{qty}{product}"]
-            checkout[product] -= checkout[product] // qty
+        if product_for_offers:
+            print(f"Offers founds: {product_for_offers}")
+            print(f"checkout product: {checkout[product]}")
+            for qty in product_for_offers:
+                total += checkout[product] // qty * for_special_offers[f"{qty}{product}"]
+                checkout[product] = checkout[product] % qty
+                print(f"checkout product: {checkout[product]}")
 
     total += sum([checkout[sku] * table_offer[sku] for sku in table_offer])
 
@@ -70,12 +73,12 @@ def checkout(skus):
 
 def get_number(elt):
     """ Input like 10H, returns 10"""
-    print(f"elt: {elt}")
+    # print(f"elt: {elt}")
     buff = ''
     for i in elt:
         if i in '0123456789':
             buff += i
-    print(f"nd: {int(buff)}")
+    # print(f"nd: {int(buff)}")
     return int(buff)
 
 
@@ -109,4 +112,5 @@ def read_item_list():
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     return table_offer, for_special_offer_list, get_special_offer_list
+
 
