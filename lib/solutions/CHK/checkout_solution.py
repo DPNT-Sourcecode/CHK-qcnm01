@@ -62,10 +62,14 @@ def checkout(skus):
 
 
 def read_item_list():
+    """
+    Reads file in item_list.txt containing the products, their price and their offers to build talbe_offer and
+    special_offer_list.
+    """
     table_offer = {}
     special_offer_list = {}
     file_path = '/'.join(__file__.split('/')[:len(__file__.split('/')) - 1])
-    print('__file__:    ', file_path)
+
     with open(file_path + '/item_list.txt', 'r') as f:
         lines = f.readlines()
         for line in lines[3:len(lines) - 1]:
@@ -77,15 +81,11 @@ def read_item_list():
             offers = [elt.strip() for elt in special_offers.split(',')]
             for offer in offers:
                 if "for" in offer:
-                    print(f"for offer: {offer}")
                     product_o, price_o = [elt.strip() for elt in offer.split('for')]
-                    print(f"{product_o}: {price_o}")
                     special_offer_list[product_o] = int(price_o)
                 elif 'get' in offer:
-                    print(f"get offer: {offer}")
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
-                    print(f"{product_o}: {free_product}")
                     special_offer_list[product_o] = free_product[0]
 
-    # print(f"Table offer is: {table_offer}")
-    print(f"Special offers are: {special_offer_list}")
+    print(table_offer)
+    return table_offer, special_offer_list
