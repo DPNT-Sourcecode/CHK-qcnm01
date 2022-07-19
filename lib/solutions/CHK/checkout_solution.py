@@ -63,6 +63,7 @@ def checkout(skus):
 
 def read_item_list():
     table_offer = {}
+    special_offer_list = {}
     file_path = '/'.join(__file__.split('/')[:len(__file__.split('/')) - 1])
     print('__file__:    ', file_path)
     with open(file_path + '/item_list.txt', 'r') as f:
@@ -71,9 +72,19 @@ def read_item_list():
             line = [elt.strip() for elt in line.strip().split('|') if elt != '']
             print(f"Line is: {line}")
             product, price, special_offers = line
-            table_offer[product] = price
+            table_offer[product] = int(price)
 
+            offers = [elt.strip() for elt in special_offers.split(',')]
+            for offer in offer:
+                if "for" in offer:
+                    product_o, price_o = [elt.strip() for elt in offer.split('for')]
+                    special_offer_list[product_o] = int(price_o)
+                elif 'get' in offer:
+                    product_o, free_product = [elt.strip() for elt in offer.split('get one')]
+                    special_offer_list[product_o] = free_product[0]
 
+    print(f"Table offer is: {table_offer}")
+    print(f"Special offers are: {special_offers}")
 
 
 
