@@ -55,11 +55,11 @@ def checkout(skus):
 
     # Then, we do "any" offers:
     for offer in any_special_offers:
+        print(f"Offer: {offer}")
         qty, products, price = offer
-        # products = offer[1]
-        # price = offer[2]
-        checkout_qty = sum([table_offer[product] for product in products])
+        checkout_qty = sum([checkout[product] for product in products])
 
+        print(f"checkout_qty: {checkout_qty}")
         if checkout_qty > qty:
             # We take the most expensive ones in priority:
             prices = sorted([(product, table_offer[product]) for product in products], reverse=False, key=lambda x: x[1])
@@ -92,6 +92,7 @@ def checkout(skus):
 
     total += sum([checkout[sku] * table_offer[sku] for sku in table_offer if checkout[sku] >= 0])
 
+    print(f"total: {total}")
     return total
 
 
@@ -127,11 +128,11 @@ def read_item_list(nb_round):
 
             if 'any' in special_offers:
                 offer = special_offers.split(' ')
-                qty = offer[2]
+                qty = int(offer[2])
                 products = offer[4][1:len(offer[4]) - 1].split(',')
-                price = offer[-1]
+                price = int(offer[-1])
 
-                if (qty, products) not in any_special_offer_list:
+                if (qty, products, price) not in any_special_offer_list:
                     any_special_offer_list.append((qty, products, price))
                 # print(f'qty: {qty}\nproducts: {products}')
 
@@ -148,7 +149,9 @@ def read_item_list(nb_round):
     print(f"for offer: {for_special_offer_list}")
     print(f"get offer: {get_special_offer_list}")
     print(f"any offer: {any_special_offer_list}")
+
     return table_offer, for_special_offer_list, get_special_offer_list, any_special_offer_list
+
 
 
 
