@@ -63,11 +63,14 @@ def checkout(skus):
 
 def read_item_list():
     table_offer = {}
-    with open('item_list.txt', 'r') as f:
-        lines = f.readlines()
-        for line in lines[3:len(lines)]:
-            line = line.strip().split('|')
-            print(f"Line is: {line}")
-            product, price, special_offers = line[1:]
+    file_path = '/'.join(__file__.split()[:len(__file__.split()) - 1])
+    print('__file__:    ', file_path)
+    # with open('item_list.txt', 'r') as f:
+    #     lines = f.readlines()
+    #     for line in lines[3:len(lines) - 1]:
+    #         line = line.strip().split('|')
+    #         print(f"Line is: {line}")
+    #         product, price, special_offers = line[1:]
+
 
 
