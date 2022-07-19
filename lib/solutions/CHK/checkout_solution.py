@@ -34,7 +34,7 @@ def checkout(skus):
         | Z    | 50    |                        |
         +------+-------+------------------------+
     """
-    table_offer, special_offers = read_item_list()
+    table_offer, for_special_offers, get_special_offers = read_item_list()
     checkout = {f"{char}": 0 for char in table_offer}
     print(f"Checkout: {checkout}")
     total = 0
@@ -45,12 +45,11 @@ def checkout(skus):
         else:
             return -1
 
-    for product, qty in checkout.items():
-
+    # for product, qty in checkout.items():
 
     for product, qty in checkout.items():
         print(f"for product A:")
-        product_offers = [int(elt[0]) for elt in special_offers if product in elt]
+        product_offers = [int(elt[0]) for elt in for_special_offers if product in elt]
         print(f"Offers founds: {product_offers}")
         # for nb in product_offers:
 
@@ -69,7 +68,8 @@ def read_item_list():
     special_offer_list.
     """
     table_offer = {}
-    special_offer_list = {}
+    for_special_offer_list = {}
+    get_special_offer_list = {}
     file_path = '/'.join(__file__.split('/')[:len(__file__.split('/')) - 1])
 
     with open(file_path + '/item_list.txt', 'r') as f:
@@ -84,11 +84,13 @@ def read_item_list():
             for offer in offers:
                 if "for" in offer:
                     product_o, price_o = [elt.strip() for elt in offer.split('for')]
-                    special_offer_list[product_o] = int(price_o)
+                    for_special_offer_list[product_o] = int(price_o)
                 elif 'get' in offer:
                     product_o, free_product = [elt.strip() for elt in offer.split('get one')]
-                    special_offer_list[product_o] = free_product[0]
+                    get_special_offer_list[product_o] = free_product[0]
 
-    return table_offer, special_offer_list
+    print(get_special_offer_list)
+    return table_offer, for_special_offer_list, get_special_offer_list
+
 
 
