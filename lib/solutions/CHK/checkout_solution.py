@@ -35,8 +35,3 @@ def checkout(skus):
     print(f"Total of {skus}: {total}")
 
     return total
-
-
-
-
-
