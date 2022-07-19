@@ -68,9 +68,13 @@ def read_item_list():
     with open(file_path + '/item_list.txt', 'r') as f:
         lines = f.readlines()
         for line in lines[3:len(lines) - 1]:
-            line = line.strip().split('|')
+            line = [elt.strip() for elt in line.strip().split('|') if elt != '']
             print(f"Line is: {line}")
-            product, price, special_offers = line[1:]
+            product, price, special_offers = line
+            table_offer[product] = price
+
+
+
 
 
 
